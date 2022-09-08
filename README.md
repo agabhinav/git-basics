@@ -272,7 +272,7 @@ Below is the **commit graph** after commiting the changes.
 
 ```mermaid
 graph BT;
-    A[commit-1] -->|Add L2, Edit L1 | B[commit-2] -->|Remove L3 | C[commit-3]
+    A[commit-1] -->|Add L2, Edit L1 | B[commit-2] -->|Remove L2 | C[commit-3]
 ```
 
 ```
@@ -446,3 +446,7 @@ Untracked files:
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
+```mermaid
+graph BT;
+    L1{{L1}} -->|Add L1| A[commit-1] -->|Add L2, Edit L1 | B[commit-2] -->|Remove L2 | C[commit-3] -->|Restore L2| D[commit-4] -->|Add .gitignore| E[commit-5]
+```
