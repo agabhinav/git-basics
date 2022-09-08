@@ -1,9 +1,10 @@
-# Git Intro
+# Git Introduction - Core Concepts
 
 ## References
 [Pro Git Book by Scott Chacon and Ben Straub](https://git-scm.com/book/en/v2)  
 [A Visual Git Reference by Mark Lodato](https://marklodato.github.io/visual-git-guide/index-en.html)  
 [Introduction to Git - Core Concepts by David Mahler](https://youtu.be/uR6G2v_WsRA)  
+[Introduction to Git - Branching and Merging by David Mahler](https://youtu.be/FyAAIHHClqI) 
 
 Git = version control system (VCS).  
 
@@ -449,4 +450,127 @@ nothing added to commit but untracked files present (use "git add" to track)
 ```mermaid
 graph BT;
     L1{{L1}} -->|Add L1| A[commit-1] -->|Add L2, Edit L1 | B[commit-2] -->|Remove L2 | C[commit-3] -->|Restore L2| D[commit-4] -->|Add .gitignore| E[commit-5]
+```
+---
+
+# Git Introduction - Branching and Merging
+
+## main branch & HEAD pointer
+
+![New repo with 2 commits](images/branch1.png "New repo with 2 commits")
+
+Above commit graph shows a new repo with 2 commits.\
+Every commit has a SHA1 hash.\
+By default, git creates the first branch known as the _master_ or _main_ branch.\
+A branch is just a pointer to a SHA1 hash.\
+When you are on the master branch, every time you make a commit, the branch moves up to the latest commit.\
+The way git know what branch we are on is a special pointer called _HEAD_.\
+_HEAD_ is a pointer that points to a branch and not directly to the commit. It is also known as symbolic pointer.\
+_HEAD_ pointer tells us what we have checked out. In above image, it tells us that we have _master_ branch checked out.
+
+`git log` shows commit history.
+```
+$ alias graph="git log --all --decorate --oneline --graph"
+$ graph
+* 9a2111f (HEAD -> master) add L2
+* 969b4af add L1
+```
+
+## Create new branches
+
+![Two new branches](images/branch2.png "Two new branches")
+
+`git branch <branch-name>` creates a new branch.\
+ Branch gets instantiated where the head pointer is.\
+ `git branch` shows all branches.\
+
+```
+$ git branch branch1
+$ git branch branch2
+$ git branch
+  branch1
+  branch2
+* master
+```
+Asterisk * next to the branch name tells us what branch is checked out. From the above output, _master_ branch is checked out. i.e. HEAD pointer is pointing to the _master_ branch.
+
+Using graph alias, we see that all 3 branches are pointing to the same commit. _HEAD_ is attached to the _master_ since we have _master_ checked out.
+```
+$ graph
+* 9a2111f (HEAD -> master, branch2, branch1) add L2
+* 969b4af add L1
+```
+
+## Checkout and work on branches
+
+`git checkout <branch-name>` switches to the specified branch-name. i.e. it moves the _HEAD_ pointer to point to the branch-name.\
+
+```
+$ git checkout branch1
+Switched to branch 'branch1'
+
+$ graph
+* 9a2111f (HEAD -> branch1, master, branch2) add L2
+* 969b4af add L1
+
+$ git status
+On branch branch1
+```
+
+If you edit any file in this branch and commit the changes, only this branch will move up to the new commit. Other branches, including main/master, will stay at the previous commit. This is shown below.
+
+```
+$ git add L1.txt | git commit -m "Edit L1 in branch1"
+[branch1 e1b738c] Edit L1 in branch1
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+/c/DATA/Git/myproject (branch1)
+$ graph
+* e1b738c (HEAD -> branch1) Edit L1 in branch1
+* 9a2111f (master, branch2) add L2
+* 969b4af add L1
+```
+
+Note that the changes made to the file are only in the branch that was checked out.
+```
+$ cat L1.txt
+Apples
+Oranges
+Water
+Added in branch1
+
+/c/DATA/Git/myproject (branch1)
+$ git checkout branch2
+Switched to branch 'branch2'
+
+/c/DATA/Git/myproject (branch2)
+$ cat L1.txt
+Apples
+Oranges
+Water
+```
+
+`graph` shows checkout moves the _HEAD_ pointer.
+```
+$ graph
+* e1b738c (branch1) Edit L1 in branch1
+* 9a2111f (HEAD -> branch2, master) add L2
+* 969b4af add L1
+```
+
+Changes made to L1 now will remain in branch2. Note the output from `graph` as well.
+
+```
+/c/DATA/Git/myproject (branch2)
+$ git add L1.txt | git commit -m "Edit L1 in branch2"
+[branch2 e33af44] Edit L1 in branch2
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+/c/DATA/Git/myproject (branch2)
+$ graph
+* e33af44 (HEAD -> branch2) Edit L1 in branch2
+| * e1b738c (branch1) Edit L1 in branch1
+|/
+* 9a2111f (master) add L2
+* 969b4af add L1
 ```
