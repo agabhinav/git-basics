@@ -36,7 +36,7 @@ Kept in a hidden .git directory.
 ## Create a git repo
 1. Create a directory on your file system. This will become git repo's working tree.
     ```
-    mkdir myproject
+    $ mkdir myproject
     ```
 
     Add a file L1 to this directory.
@@ -45,10 +45,9 @@ Kept in a hidden .git directory.
     Oranges
     ```
 
-2. Turn that directory into a git repo using `git init`
+2. Turn that directory into a git repo using `git init` 
     ```
-    git init
-
+    $ git init
     Initialized empty Git repository in C:/DATA/Git/myproject/.git/
     ```
 
@@ -57,10 +56,11 @@ Kept in a hidden .git directory.
     Set your username and email before making a commit.  
     List current configuration using `git config`
     ```
-    git config --list
-
+    $ git config --list
+    ...
     user.name=username
     user.email=email
+    ...
     ```
 
     Set your account's default global identity.  
@@ -68,16 +68,21 @@ Kept in a hidden .git directory.
     Use `--local` flag if you wan't to use a different name and email for a particular repo.
 
     ```
-    git config --global user.email "you@example.com"
-    git config --global user.name "Your Name"
+    $ git config --global user.email "you@example.com"
+    $ git config --global user.name "Your Name"
     ```
 ---
 ## Git commit
 
+```mermaid
+graph LR;
+    file>File] --> A[Working Tree] -->|git add| B[Staging Area] -->|git commit| C[History]
+```
+\
 Use `git status` to view the state of files in the working tree and the staging area.
 
 ```
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 
 No commits yet
@@ -92,9 +97,9 @@ nothing added to commit but untracked files present (use "git add" to track)
 `git add` - add file to staging area and start tracking the file.\
 `git add .` adds all new and modified files to the staging area.
 ```
-C:\DATA\Git\myproject>git add L1.txt
+$ git add L1.txt
 
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 
 No commits yet
@@ -106,16 +111,16 @@ Changes to be committed:
 
 `git commit -m "commit message"` - create a commit with whatever is in the staging area.
 ```
-C:\DATA\Git\myproject>git commit -m "add file L1"
+$ git commit -m "add file L1"
 [master (root-commit) 97065ac] add file L1
  1 file changed, 2 insertions(+)
  create mode 100644 L1.txt
  ```
- Every commit gets a unique hash value. 97065ac above.
+ Every commit gets a unique hash value. _97065ac_ above.
 
 If you just use `git commit` without `-m` option, then it'll open your default text editor where you can provide multi-line comments for the commit. 
 ```
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 nothing to commit, working tree clean
 ```
@@ -124,7 +129,7 @@ nothing to commit, working tree clean
 `git log` shows commit graph.
 
 ```
-C:\DATA\Git\myproject>git log
+$ git log
 commit 97065ac725e0e6b8687f32747a2bf489c37aa4d8 (HEAD -> master)
 Author: Abhinav <agabhinav@users.noreply.github.com>
 Date:   Wed Sep 7 15:08:24 2022 -0500
@@ -132,14 +137,19 @@ Date:   Wed Sep 7 15:08:24 2022 -0500
     add file L1
 ```
 
+```mermaid
+graph BT;
+    A{{L1}} -->| Add L1| B[commit-1]
+```
+
 Create a new file L2 and edit L1.
 ```
-L2
+$ L2 - new file
 Apples
 Bread
 Peaches
 
-L1
+$ L1 - add Water
 Apples
 Oranges
 Water
@@ -147,7 +157,7 @@ Water
 
 `git status` shows the following.
 ```
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 Changes not staged for commit:
   (use "git add <file>..." to update what will be committed)
@@ -163,8 +173,13 @@ no changes added to commit (use "git add" and/or "git commit -a")
 
 `git diff` shows difference between tracked files in the working tree and the staging area.
 
+```mermaid
+graph LR;
+    A[Working Tree] ---|git diff| B[Staging Area]
 ```
-git diff
+
+```
+$ git diff
 diff --git a/L1.txt b/L1.txt
 index 92e89b1..b8fd882 100644
 --- a/L1.txt
@@ -177,8 +192,8 @@ index 92e89b1..b8fd882 100644
 ```
 
 ```
-C:\DATA\Git\myproject>git add .
-C:\DATA\Git\myproject>git status
+$ git add .
+$ git status
 On branch master
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
@@ -188,8 +203,13 @@ Changes to be committed:
 
 `git diff --staged` shows diff between the staging area and the most recent commit. i.e. it shows what we are about to commit.
 
+```mermaid
+graph LR;
+    A[Staging Area] ---|git diff --staged| B[History]
 ```
-C:\DATA\Git\myproject>git diff --staged
+
+```
+$ git diff --staged
 diff --git a/L1.txt b/L1.txt
 index 92e89b1..b8fd882 100644
 --- a/L1.txt
@@ -211,9 +231,15 @@ index 0000000..58518a5
 \ No newline at end of file
 ```
 
-Commit graph using `git log`
+View **commit graph** using `git log`
+
+```mermaid
+graph BT;
+    A[commit-1] -->|Add L2, Edit L1 | B[commit-2]
 ```
-C:\DATA\Git\myproject>git log
+
+```
+$ git log
 commit 410cffa1b7c4bfe93bbaf6ccd3488fef2a353da4 (HEAD -> master)
 Author: Abhinav <agabhinav@users.noreply.github.com>
 Date:   Wed Sep 7 15:36:50 2022 -0500
@@ -232,20 +258,25 @@ Date:   Wed Sep 7 15:08:24 2022 -0500
 `git rm <file>` removes the file from the working tree and also stages this removal.
 
 ```
-C:\DATA\Git\myproject>git rm L2.txt
+$ git rm L2.txt
 rm 'L2.txt'
 
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         deleted:    L2.txt
 ```
 
-Below is the **commit graph** again after commiting the changes.
+Below is the **commit graph** after commiting the changes.
+
+```mermaid
+graph BT;
+    A[commit-1] -->|Add L2, Edit L1 | B[commit-2] -->|Remove L3 | C[commit-3]
+```
 
 ```
-C:\DATA\Git\myproject>git log
+$ git log
 commit dac9d0846f33d8e91e5b5363697626784c4245e0 (HEAD -> master)
 Author: Abhinav <agabhinav@users.noreply.github.com>
 Date:   Wed Sep 7 15:51:29 2022 -0500
@@ -281,11 +312,20 @@ bad data 2
 the new working tree changes.\
 `git restore <file>` does the same thing.
 
+```mermaid
+flowchart TD
+  subgraph Undo working tree changes
+        direction RL
+        A[Staging Area] --> |git restore| B[Working Tree]
+  end
+```
+
 ---
 
 ## Undo staging of files
 Edit L1 and stage the change using `git add`
 ```
+$ L1 - add more bad data
 Apples
 Oranges
 Water
@@ -293,11 +333,11 @@ more bad data
 ```
 
 ```
-C:\DATA\Git\myproject>git add L1.txt
+$ git add L1.txt
 
-C:\DATA\Git\myproject>git diff
+$ git diff
 
-C:\DATA\Git\myproject>git diff --staged
+$ git diff --staged
 diff --git a/L1.txt b/L1.txt
 index b8fd882..34fc5d3 100644
 --- a/L1.txt
@@ -315,13 +355,21 @@ index b8fd882..34fc5d3 100644
 `git reset HEAD <file>` does the same thing. i.e. it restores `<file>` from the latest commit. HEAD refers to the most recent commit.
 
 ```
-C:\DATA\Git\myproject>git restore L1.txt
+$ git restore --staged L1.txt
 
-C:\DATA\Git\myproject>git diff
+$ git diff
 
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 nothing to commit, working tree clean
+```
+
+```mermaid
+flowchart TD
+  subgraph Undo staging of files
+        direction RL
+        A[History] --> |git restore --staged| B[Staging Area: changes discarded] -.- C[Working Tree - has file changes]
+  end
 ```
 
 ---
@@ -331,7 +379,7 @@ nothing to commit, working tree clean
 `git checkout <commit-hash> -- <file>` restores the file from a specific commit into both the working tree and the staging area.
 
 ```
-C:\DATA\Git\myproject>git log -- L2.txt
+$ git log -- L2.txt
 commit dac9d0846f33d8e91e5b5363697626784c4245e0 (HEAD -> master)
 Author: Abhinav <agabhinav@users.noreply.github.com>
 Date:   Wed Sep 7 15:51:29 2022 -0500
@@ -344,15 +392,15 @@ Date:   Wed Sep 7 15:36:50 2022 -0500
 
     add L2 and edit L1
 
-C:\DATA\Git\myproject>git checkout 410cff -- L2.txt
+$ git checkout 410cff -- L2.txt
 
-C:\DATA\Git\myproject>git status
+$ git status
 On branch master
 Changes to be committed:
   (use "git restore --staged <file>..." to unstage)
         new file:   L2.txt
 
-C:\DATA\Git\myproject>git commit -m "restore L2.txt"
+$ git commit -m "restore L2.txt"
 [master 85ec248] restore L2.txt
  1 file changed, 3 insertions(+)
  create mode 100644 L2.txt
@@ -398,21 +446,3 @@ Untracked files:
 nothing added to commit but untracked files present (use "git add" to track)
 ```
 
-
-
-
-
-
-
-
-
-
-
-
-```mermaid
-graph TD;
-    A<-->B;
-    A-->C;
-    B-->D;
-    C-->D;
-```
