@@ -10,4 +10,5 @@
 
 [Core Concepts](Git-Core-Concepts.md)\
 [Branching and Merging](Git-Branching-Merging.md)\
-[Git Remotes](Git-Remotes.md)
+[Git Remotes](Git-Remotes.md)\
+[Access multiple Git accounts using SSH](GitHub-ssh.md)

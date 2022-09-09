@@ -73,7 +73,7 @@ $ graph
 Observations from this output:
 *  There are 2 commits.
 * At `origin`, `master` branch is at the 2nd commit.
-* Locally, `master' branch is still at the 1st commit.
+* Locally, `master` branch is still at the 1st commit.
 * After running `git fetch origin`, the remote tracking branch `origin/master` moves to the 2nd commit in local repo.
 
 Use `git merge` to integrate or merge the changes from `origin/master` into the local `master` branch. Merge the commit referenced by `origin/master` into the local `master` branch.
