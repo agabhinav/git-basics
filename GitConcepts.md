@@ -645,3 +645,167 @@ $ graph
 This is used when there is not a direct path from the `master` branch to the other branch.
 Git cannot do a fast-forward merge in this case.
 After `git merge <branch-name>`, resolve conflicts manually. Then do `git add <file>`. Then do `git commit`.
+
+A **merge conflict** occurs when we try to merge branches that have changed the same lines in the same files.
+
+---
+
+# Introduction to Git - Remotes
+
+What is a `Git Remote`? A remote repository in Git, also called a `remote`, is a Git repository that’s hosted on the Internet or another network.
+
+## git clone
+Create a repo on `github`. This is the remote repository.\
+Use `git clone <url>` to download the repo. i.e. retrieve a copy of this repo to your local system.
+
+## git remote
+The command `git remote` displays the remotes. After cloning a repo, `origin` is the default name for the first remote. `-v` option shows the full locations.
+```
+/c/DATA/Git/demo-remote (master)
+$ git remote
+origin
+
+$ git remote -v
+origin  https://github.com/agabhinav/demo-remote.git (fetch)
+origin  https://github.com/agabhinav/demo-remote.git (push)
+```
+
+Run the `graph` command
+```
+$ graph
+* e773139 (HEAD -> master, origin/master, origin/HEAD) Initial commit
+```
+Observations from this output:
+* This repo has a single commit in its commit history.
+* Locally, there is only a `master` branch that points to that single commit.
+* `HEAD` pointer tells us that we have `master` branch checked out.
+* `origin/master` is a specialized branch. It is called a _remote tracking branch_. 
+It tells what the master branch looks like at origin (i.e. in github). In this example, it tells us that our local `master` branch and the `master` branch in github are pointing to the same commit. i.e. our local repo is in sync with our remote named origin.
+
+## git fetch and git merge
+**Use-case** Add a new file in the remote repo and then download those changes to the local repo.
+
+Add a new file _L1_ to the repo on github.
+```json
+{"employees":[
+  { "firstName":"John", "lastName":"Doe" },
+  { "firstName":"Anna", "lastName":"Smith" },
+  { "firstName":"Peter", "lastName":"Jones" }
+]}
+```
+Git on the local system doesn't know about the commit at the origin (i.e. on github).\
+`git fetch origin` reaches out to github and downloads any new commits.
+
+```
+$ git fetch origin
+remote: Enumerating objects: 4, done.
+remote: Counting objects: 100% (4/4), done.
+remote: Compressing objects: 100% (3/3), done.
+remote: Total 3 (delta 0), reused 0 (delta 0), pack-reused 0
+Unpacking objects: 100% (3/3), 721 bytes | 15.00 KiB/s, done.
+From https://github.com/agabhinav/demo-remote
+   e773139..adfe508  master     -> origin/master
+
+$ git status
+On branch master
+Your branch is behind 'origin/master' by 1 commit, and can be fast-forwarded.
+  (use "git pull" to update your local branch)
+
+$ graph
+* adfe508 (origin/master, origin/HEAD) Create L1
+* e773139 (HEAD -> master) Initial commit
+```
+Observations from this output:
+*  There are 2 commits.
+* At `origin`, `master` branch is at the 2nd commit.
+* Locally, `master' branch is still at the 1st commit.
+* After running `git fetch origin`, the remote tracking branch `origin/master` moves to the 2nd commit in local repo.
+
+Use `git merge` to integrate or merge the changes from `origin/master` into the local `master` branch. Merge the commit referenced by `origin/master` into the local `master` branch.
+
+```
+$ git merge origin/master
+Updating e773139..adfe508
+Fast-forward
+ L1 | 5 +++++
+ 1 file changed, 5 insertions(+)
+ create mode 100644 L1
+
+$ ls
+L1  README.md
+
+ $ git status
+On branch master
+Your branch is up to date with 'origin/master'.
+
+nothing to commit, working tree clean
+
+$ graph
+* adfe508 (HEAD -> master, origin/master, origin/HEAD) Create L1
+* e773139 Initial commit
+ ```
+Observations from this output:
+* _L1_ file is now in the working tree.
+* `graph` command shows that the local repo is in sync with the remote. i.e. the local `master` branch and the `origin/master` branch are at the same commit.
+
+## git pull
+`git pull` combines git fetch and git merge in a single command.
+
+## git push
+
+**Use-case** Make a local change and push it to the origin.
+
+Edit the local file _L1_.
+```json
+{"employees":[
+  { "firstName":"Jane", "lastName":"Doe" },
+  { "firstName":"Anna", "lastName":"Smith" },
+  { "firstName":"Peter", "lastName":"Jones" }
+]}
+```
+Commit the changes to the local repo.
+```
+$ git commit -a -m "Edit L1 locally: John to Jane (master)"
+[master c4ea8f2] Edit L1 locally: John to Jane (master)
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+```
+
+`graph` command shows that locally we are one commit ahead of the tracking branch `origin/master`.
+```
+$ graph
+* c4ea8f2 (HEAD -> master) Edit L1 locally: John to Jane (master)
+* adfe508 (origin/master, origin/HEAD) Create L1
+* e773139 Initial commit
+
+$ git status
+On branch master
+Your branch is ahead of 'origin/master' by 1 commit.
+  (use "git push" to publish your local commits)
+
+nothing to commit, working tree clean
+```
+
+`git push origin master` pushes the local changes to the remote named `origin`, into the `master` branch at `origin`. This push relies on github authentication.
+
+```
+$ git push origin master
+Enumerating objects: 5, done.
+Counting objects: 100% (5/5), done.
+Delta compression using up to 8 threads
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 315 bytes | 105.00 KiB/s, done.
+Total 3 (delta 1), reused 0 (delta 0), pack-reused 0
+remote: Resolving deltas: 100% (1/1), completed with 1 local object.
+To https://github.com/agabhinav/demo-remote.git
+   adfe508..c4ea8f2  master -> master
+```
+
+`graph` alias now shows that the tracking branch is updated.
+```
+$ graph
+* c4ea8f2 (HEAD -> master, origin/master, origin/HEAD) Edit L1 locally: John to Jane (master)
+* adfe508 Create L1
+* e773139 Initial commit
+```
+Note the `user.name` in the commit history on github.
+![github-push-1](images/github-push-1.png "github-push-1")
