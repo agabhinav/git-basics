@@ -65,7 +65,7 @@ On branch branch1
 ```
 
 >**Creating a new branch and switching to it at the same time.**
->* It’s typical to create a new branch and want to switch to that new branch at the same time — this can be done in one operation with `git checkout -b <newbranchname>`.
+>* It’s typical to create a new branch and to switch to that new branch at the same time — this can be done in one operation with `git checkout -b <newbranchname>`.
 >
 >* From Git version 2.23 onwards you can use `git switch` instead of `git checkout` to:
 >   * Switch to an existing branch: `git switch testing-branch`.
