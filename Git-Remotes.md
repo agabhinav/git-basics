@@ -112,6 +112,10 @@ Observations from this output:
 
 **Use-case** Make a local change and push it to the origin.
 
+>If you have a branch named `serverfix` that you want to push to a remote, run `git push <remote> <branch>`:
+>`$ git push origin serverfix` means "Take my `serverfix` local branch and push it to update the remote’s `serverfix` branch.”
+>You can also do `git push origin serverfix:serverfix`, which does the same thing — it says, “Take my serverfix and make it the remote’s serverfix.”
+
 Edit the local file _L1_.
 ```json
 {"employees":[
