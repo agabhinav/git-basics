@@ -179,7 +179,7 @@ graph LR;
     A[Working Tree] ---|git diff| B[Staging Area]
 ```
 
-```
+```diff
 $ git diff
 diff --git a/L1.txt b/L1.txt
 index 92e89b1..b8fd882 100644
@@ -209,7 +209,7 @@ graph LR;
     A[Staging Area] ---|git diff --staged| B[History]
 ```
 
-```
+```diff
 $ git diff --staged
 diff --git a/L1.txt b/L1.txt
 index 92e89b1..b8fd882 100644
@@ -333,7 +333,7 @@ Water
 more bad data
 ```
 
-```
+```diff
 $ git add L1.txt
 
 $ git diff
