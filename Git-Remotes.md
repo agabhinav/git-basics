@@ -51,6 +51,8 @@ Add a new file _L1_ to the repo on github.
 Git on the local system doesn't know about the commit at the origin (i.e. on github).\
 `git fetch origin` reaches out to github and downloads any new commits.
 
+>To synchronize your work with a given remote, you run a `git fetch <remote>` command (in our case, `git fetch origin`). This command looks up which server “origin” is (in this case, it’s github), fetches any data from it that you don’t yet have, and updates your local database, moving your `origin/master` pointer to its new, more up-to-date position.
+
 ```
 $ git fetch origin
 remote: Enumerating objects: 4, done.
