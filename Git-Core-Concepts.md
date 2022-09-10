@@ -172,6 +172,7 @@ Untracked files:
 no changes added to commit (use "git add" and/or "git commit -a")
 ```
 
+To see what you’ve changed but not yet staged, type `git diff` with no other arguments.\
 `git diff` shows difference between tracked files in the working tree and the staging area.
 
 ```mermaid
@@ -202,6 +203,7 @@ Changes to be committed:
         new file:   L2.txt
 ```
 
+If you want to see what you’ve staged that will go into your next commit, you can use `git diff --staged`. This command compares your staged changes to your last commit.\
 `git diff --staged` shows diff between the staging area and the most recent commit. i.e. it shows what we are about to commit.
 
 ```mermaid
