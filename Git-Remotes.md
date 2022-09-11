@@ -175,7 +175,7 @@ Note the `user.name` in the commit history on github.
 
 ## Create a GitHub fork
 
-**Use case** Let's say you want to work on someone else's repo in github. You don't have write access to that repo. You can create a fork of that repo. A fork creates a copy of a repo in github. You can then close this copy.
+**Use case** Let's say you want to work on someone else's repo in github. You don't have write access to that repo. You can create a fork of that repo. A fork creates a copy of a repo in github. You can then clone this copy.
 
 For this demo, I'll use two github accounts.\
 1 - used above to create demo-remote repo\
