@@ -37,11 +37,11 @@ Create an entry for each github account that you would like to connect to from y
 ```
 Host github.com-seasmokee
   HostName github.com
-  IdentityFile ~/.ssh/github-seasmokee
+  IdentityFile ~/.ssh/seasmokee_id_ed25519
 
 Host github.com-agabhinav
   HostName github.com
-  IdentityFile ~/.ssh/github-agabhinav
+  IdentityFile ~/.ssh/agabhinav_id_ed25519
 ```
 
 ---
