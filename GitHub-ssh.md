@@ -9,7 +9,7 @@
 You can generate a new SSH key on your local machine. After you generate the key, you can add the key to your account on GitHub.com to enable authentication for Git operations over SSH.
 
 1. Open Git Bash.
-2. On Windows, go to .ssh directory. `cd ~/.ssh`
+2. Go to .ssh directory. `cd ~/.ssh`
 3. Use `ssh-keygen` to create a key pair (private key and public key) in `~/.ssh` directory
 
 ```
