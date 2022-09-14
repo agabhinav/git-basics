@@ -5,9 +5,7 @@
 [Core Concepts](Git-Core-Concepts.md)\
 [Branching and Merging](Git-Branching-Merging.md)\
 [Git Remotes](Git-Remotes.md)\
-[Access multiple Git accounts using SSH](GitHub-ssh.md)
-
----
+[Access multiple Git accounts using SSH](GitHub-ssh.md)\
 
 ### References
 [Pro Git Book by Scott Chacon and Ben Straub](https://git-scm.com/book/en/v2)  
